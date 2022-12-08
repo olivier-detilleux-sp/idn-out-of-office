@@ -1,4 +1,4 @@
-# out-of-office
+# Outlook 365 Out Of Office with IDN
 
 The purpose of those artifacts is to get the Out of Office status of mail enabled users in Office 365. This status can then be used as a logical test to forward approvals in IdentityNow.
 
