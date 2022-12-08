@@ -1,0 +1,106 @@
+{
+	"name": "Out of Office - Forward Pending Access Request",
+	"description": "",
+	"modified": "2022-12-07T13:30:17.737535503Z",
+	"definition": {
+		"start": "Get Pending Approvals",
+		"steps": {
+			"Get Pending Approvals": {
+				"actionId": "sp:http",
+				"attributes": {
+					"authenticationType": "OAuth",
+					"method": "get",
+					"oAuthClientId": "xxxxxxx",
+					"oAuthClientSecret": "$.secrets.xxxxxxx",
+					"oAuthCredentialLocation": "oAuthInHeader",
+					"oAuthScope": null,
+					"oAuthTokenUrl": "https://enterprise514.api.identitynow.com/oauth/token",
+					"requestContentType": null,
+					"url": "https://enterprise514.api.identitynow.com/v3/access-request-approvals/pending",
+					"urlParams": "limit:50"
+				},
+				"description": "Get All pending access request",
+				"nextStep": "Loop",
+				"type": "action",
+				"versionNumber": 2
+			},
+			"Loop": {
+				"actionId": "sp:loop:iterator",
+				"attributes": {
+					"input.$": "$.getPendingApprovals.body",
+					"start": "Get Approval Owner Identity",
+					"steps": {
+						"Compare Strings": {
+							"choiceList": [
+								{
+									"comparator": "StringEquals",
+									"nextStep": "Forward Access Request",
+									"variableA.$": "$.getApprovalOwnerIdentity.attributes.outOfOffice",
+									"variableB": "true"
+								}
+							],
+							"defaultStep": "success",
+							"description": "Check the out of office status for the identity. If true, forward he access request. Otherwise, do nothing.",
+							"type": "choice"
+						},
+						"Forward Access Request": {
+							"actionId": "sp:http",
+							"attributes": {
+								"authenticationType": "OAuth",
+								"jsonRequestBody": "{\n\"newOwnerId\": \"{{$.getApprovalOwnerIdentity.managerRef.id}}\",\n\"comment\": \"Automatic forward during vacations\"\n}",
+								"method": "post",
+								"oAuthClientId": "xxxxxxx",
+								"oAuthClientSecret": "$.secrets.xxxxxxx",
+								"oAuthCredentialLocation": "oAuthInHeader",
+								"oAuthScope": null,
+								"oAuthTokenUrl": "https://enterprise514.api.identitynow.com/oauth/token",
+								"requestContentType": "json",
+								"url": "https://enterprise514.api.identitynow.com/v3/access-request-approvals/{{$.loop.loopInput.id}}/forward"
+							},
+							"description": "Forward access request to the manager",
+							"nextStep": "success",
+							"type": "action",
+							"versionNumber": 2
+						},
+						"Get Approval Owner Identity": {
+							"actionId": "sp:get-identity",
+							"attributes": {
+								"id.$": "$.loop.loopInput.owner.id"
+							},
+							"nextStep": "Compare Strings",
+							"type": "action",
+							"versionNumber": 2
+						},
+						"success": {
+							"description": null,
+							"type": "success"
+						}
+					}
+				},
+				"description": null,
+				"nextStep": "success 1",
+				"type": "action",
+				"versionNumber": 1
+			},
+			"success 1": {
+				"type": "success"
+			}
+		}
+	},
+	"creator": {
+		"type": "IDENTITY",
+		"id": "2c9180846fedfce2016ff1ca07f0328a",
+		"name": "Olivier.Detilleux"
+	},
+	"trigger": {
+		"type": "SCHEDULED",
+		"attributes": {
+			"cronString": "0 6 * * *",
+			"dailyTimes": [
+				"06:00"
+			],
+			"frequency": "daily",
+			"timeZone": "Europe/Paris"
+		}
+	}
+}

@@ -1,0 +1,275 @@
+{
+    "version": 1,
+    "timestamp": "2022-12-07T10:51:07.206314Z",
+    "tenant": "enterprise514",
+    "description": "Export Mailbox Connector",
+    "options": {
+        "excludeTypes": null,
+        "includeTypes": [
+            "SOURCE"
+        ],
+        "objectOptions": {
+            "SOURCE": {
+                "includedIds": [
+                    "2c91808a7d2ed855017d5130e2877efc"
+                ],
+                "includedNames": []
+            }
+        }
+    },
+    "objects": [
+        {
+            "version": 1,
+            "self": {
+                "name": "Mailbox Settings",
+                "id": "2c91808a7d2ed855017d5130e2877efc",
+                "type": "SOURCE"
+            },
+            "object": {
+                "id": "2c91808a7d2ed855017d5130e2877efc",
+                "name": "Mailbox Settings",
+                "type": "Web Services",
+                "connectorClass": "sailpoint.connector.webservices.WebServicesConnector",
+                "connectorScriptName": "web-services-angularsc",
+                "description": "Graph connector to get Out of Office Settings",
+                "deleteThreshold": 10,
+                "provisionAsCsv": false,
+                "owner": {
+                    "type": "IDENTITY",
+                    "id": "2c9180846fedfce2016ff1ca07f0328a",
+                    "name": "Olivier.Detilleux"
+                },
+                "features": [
+                    "AUTHENTICATE",
+                    "PROVISIONING",
+                    "PASSWORD",
+                    "UNLOCK",
+                    "ENABLE"
+                ],
+                "schemas": [
+                    {
+                        "nativeObjectType": "user",
+                        "identityAttribute": "id",
+                        "displayAttribute": "userPrincipalName",
+                        "hierarchyAttribute": null,
+                        "includePermissions": false,
+                        "features": [],
+                        "configuration": {},
+                        "attributes": [
+                            {
+                                "name": "id",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "id",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "displayName",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "displayName",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "userPrincipalName",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "userPrincipalName",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "mail",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "mail",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "automaticRepliesSetting",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "automaticRepliesSetting",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "lastPasswordChangeDateTime",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "lastPasswordChangeDateTime",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "scheduledEndDateTime",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "scheduledEndDateTime",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            },
+                            {
+                                "name": "scheduledStartDateTime",
+                                "type": "STRING",
+                                "schema": null,
+                                "description": "scheduledStartDateTime",
+                                "isMulti": false,
+                                "isEntitlement": false,
+                                "isGroup": false
+                            }
+                        ],
+                        "id": "2c91808a7d2ed855017d5130e2877efd",
+                        "name": "account",
+                        "created": "2021-11-24T09:04:57.991Z",
+                        "modified": "2022-12-05T13:54:46.897Z"
+                    },
+                    {
+                        "nativeObjectType": "group",
+                        "identityAttribute": "",
+                        "displayAttribute": "",
+                        "hierarchyAttribute": null,
+                        "includePermissions": false,
+                        "features": [],
+                        "configuration": {},
+                        "attributes": [],
+                        "id": "2c91808a7d2ed855017d5130e2877efe",
+                        "name": "group",
+                        "created": "2021-11-24T09:04:57.991Z",
+                        "modified": null
+                    }
+                ],
+                "connectorAttributes": {
+                    "healthCheckTimeout": 30,
+                    "throwProvBeforeRuleException": true,
+                    "connectionType": "direct",
+                    "client_id": "<client_id of your AAD application>",
+                    "isGetObjectRequiredForPTA": true,
+                    "genericWebServiceBaseUrl": "https://graph.microsoft.com/v1.0/users",
+                    "connectionParameters": [
+                        {
+                            "contextUrl": "/<email address of a user>",
+                            "httpMethodType": "GET",
+                            "sequenceNumberForEndpoint": "1",
+                            "uniqueNameForEndPoint": "Test Connection",
+                            "curlEnabled": false,
+                            "operationType": "Test Connection",
+                            "body": {
+                                "jsonBody": null,
+                                "bodyFormat": "raw"
+                            }
+                        },
+                        {
+                            "resMappingObj": {
+                                "mail": "mail",
+                                "displayName": "displayName",
+                                "id": "id",
+                                "userPrincipalName": "userPrincipalName",
+                                "lastPasswordChangeDateTime": "lastPasswordChangeDateTime"
+                            },
+                            "contextUrl": "?$select=id,mail,displayName,lastPasswordChangeDateTime,userPrincipalName,assignedLicenses&amp;$filter=assignedLicenses/any(u:u/skuId eq 3b555118-da6a-4418-894f-7df1e2096870)",
+                            "httpMethodType": "GET",
+                            "pagingInitialOffset": 0,
+                            "pagingSize": 50,
+                            "sequenceNumberForEndpoint": "2",
+                            "uniqueNameForEndPoint": "Account Aggregation",
+                            "curlEnabled": false,
+                            "operationType": "Account Aggregation",
+                            "rootPath": "$.value",
+                            "body": {
+                                "jsonBody": null,
+                                "bodyFormat": "raw"
+                            },
+                            "responseCode": [
+                                "200"
+                            ]
+                        },
+                        {
+                            "httpMethodType": "GET",
+                            "pagingInitialOffset": 0,
+                            "sequenceNumberForEndpoint": "3",
+                            "uniqueNameForEndPoint": "Get Account",
+                            "rootPath": "$",
+                            "body": {
+                                "bodyFormData": null,
+                                "jsonBody": null,
+                                "bodyFormat": "raw"
+                            },
+                            "responseCode": [
+                                "200"
+                            ],
+                            "resMappingObj": {
+                                "automaticRepliesSetting": "automaticRepliesSetting.status",
+                                "scheduledEndDateTime\t": "automaticRepliesSetting.scheduledEndDateTime.dateTime",
+                                "scheduledStartDateTime": "automaticRepliesSetting.scheduledStartDateTime.dateTime"
+                            },
+                            "contextUrl": "/$response.id$/mailboxSettings",
+                            "pagingSize": 50,
+                            "curlEnabled": false,
+                            "operationType": "Account Aggregation",
+                            "parentEndpointName": "Account Aggregation"
+                        }
+                    ],
+                    "oauth_request_parameters": {
+                        "grant_type": "client_credentials",
+                        "scope": "https://graph.microsoft.com/.default",
+                        "client_secret": "<client_secret of your AAD application>",
+                        "client_id": "<client_id of your AAD application>"
+                    },
+                    "cloudAuthEnabled": true,
+                    "grant_type": "CLIENT_CREDENTIALS",
+                    "token_url": "https://login.microsoftonline.com/<TenantId of your AAD tenant>/oauth2/v2.0/token",
+                    "possibleHttpErrors": {},
+                    "throwProvAfterRuleException": true,
+                    "lastAggregationDate_account": "2022-12-06T13:54:45Z",
+                    "deleteThresholdPercentage": 10,
+                    "fixedPlanMultivaluedAttribute": "true",
+                    "version": "v2",
+                    "cloudCacheUpdate": 1670334885680,
+                    "templateApplication": "Web Services Template",
+                    "encrypted": "accesstoken,refresh_token,oauth_token_info,client_secret,private_key,private_key_password,clientCertificate,clientKeySpec,resourceOwnerPassword,custom_auth_token_info",
+                    "authenticationMethod": "OAuth2Login",
+                    "httpCookieSpecsStandard": "true",
+                    "healthy": true,
+                    "cloudDisplayName": "Mailbox Settings",
+                    "connectorName": "Web Services",
+                    "since": "2022-07-25T13:42:06.399631Z",
+                    "status": "SOURCE_STATE_HEALTHY"
+                },
+                "correlationConfigDetails": {
+                    "attributeAssignments": [
+                        {
+                            "complex": false,
+                            "property": "email",
+                            "operation": "EQ",
+                            "value": "userPrincipalName",
+                            "ignoreCase": true,
+                            "matchMode": null,
+                            "filterString": null
+                        }
+                    ],
+                    "name": "Mailbox Settings [source] Account Correlation",
+                    "id": "2c9180857d2ed844017d52d67d5905e9"
+                },
+                "provisioningPolicies": [
+                    {
+                        "name": "ccc",
+                        "description": null,
+                        "usageType": "CREATE",
+                        "fields": []
+                    }
+                ]
+            }
+        }
+    ]
+}
